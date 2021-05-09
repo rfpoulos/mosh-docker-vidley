@@ -3,9 +3,8 @@ services:
     web:
         build: ./frontend
         ports:
-            - 3000:3000
-        volumes:
-            - ./frontend:/app
+            - 80:3000
+        restart: unless-stopped
     api:
         build: ./backend
         ports:
@@ -15,16 +14,13 @@ services:
         volumes:
             - ./backend:/app
         command: ./docker-entrypoint.sh
-    web-tests:
-        image: vidly_web
-        volumes:
-            - ./frontend:/app
-        command: npm test
+        restart: unless-stopped
     db:
         image: mongo:4.0-xenial
         ports:
             - 27017:27017
         volumes:
             - vidly:/data/db
+        restart: unless-stopped    
 volumes:
     vidly: 
